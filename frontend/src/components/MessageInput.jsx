@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Image, Send, X } from "lucide-react";
 import { useChatStore } from '../store/useChatStore';
 import toast from "react-hot-toast";
@@ -7,6 +7,7 @@ const MessageInput = () => {
   const [text, setText] = useState("");
   const [imagePreview, setImagePreview] = useState(null);
   const fileInputRef = useRef(null);
+  const messageInputField = useRef(null);
   const { sendMessage } = useChatStore();
   const [isSendingMessage, setIsSendingMessage] = useState(false);
 
@@ -63,6 +64,10 @@ const MessageInput = () => {
       toast.dismiss(toastId);
   };
 
+  useEffect(() => {
+    messageInputField.current?.focus();
+  }, [handleSendMessage])
+
   return (
     <div>
       <div className="p-4 w-full">
@@ -96,6 +101,8 @@ const MessageInput = () => {
               value={text}
               onChange={(e) => setText(e.target.value)}
               disabled={isSendingMessage}
+              ref={messageInputField}
+              autoFocus
             />
             <input
               type="file"
