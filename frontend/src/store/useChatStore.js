@@ -23,6 +23,23 @@ export const useChatStore = create((set, get) => ({
     }
   },
 
+  setUser: (user) => {
+    const users = get().users;
+    const exists = users.some((u) => u._id === user._id);
+    if (!exists) {
+      set({ users: [...users, user] });
+    }
+  },
+
+  updateUserProfile: (updatedUser) => {
+    const newUsers = [...get().users];
+    const index = newUsers.findIndex((user) => user._id === updatedUser._id);
+    if (index !== -1) {
+      newUsers[index] = updatedUser;
+      set({ users: [...newUsers] });
+    }
+  },
+
   getMessages: async (userId) => {
     set({ isMessagesLoading: true });
     try {
