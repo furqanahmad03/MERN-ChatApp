@@ -112,6 +112,7 @@ export const useAuthStore = create((set, get) => ({
   disconnectSocket: () => {
     if (get().socket?.connected) {
       get().socket.off("newUser");
+      get().socket.off("profilePicUpdation");
       get().socket.disconnect();
     }
   },
